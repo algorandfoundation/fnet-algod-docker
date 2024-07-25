@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# If changed, update docker-compose as well
+export LOCAL_DATA_DIR=data-fnet-v1
+export LOCAL_KMD_DIR=data-kmd-v0.5
+
 function get_genesis {
     local bootstrap=_algobootstrap._tcp.fnet.algorand.green
     local port=8184

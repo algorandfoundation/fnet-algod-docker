@@ -1,5 +1,6 @@
 persistent/algod.token
 persistent/algod.admin.token
 partkeys/*
-data/
+data-fnet-v1/
+data-kmd-v0.5/
 wipe.sh

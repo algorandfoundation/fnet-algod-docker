@@ -10,10 +10,12 @@ if [ "$1" != "-y" ]; then
   exit 1
 fi
 
+source _common.sh
+
 ./stop.sh
 
-rm -rf data
+rm -rf "$LOCAL_DATA_DIR"
 
-mkdir data
+mkdir "$LOCAL_DATA_DIR"
 
 ./run.sh

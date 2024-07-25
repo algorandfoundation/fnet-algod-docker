@@ -4,8 +4,11 @@ services:
     image: tasosbit/algod-fnet:latest
     volumes:
       - type: bind
-        source: ./data
+        source: ./data-fnet-v1
         target: /node/data/fnet-v1
+      - type: bind
+        source: ./data-kmd-v0.5
+        target: /node/data/kmd-v0.5
       - type: bind
         source: ./persistent/genesis.json
         target: /node/data/genesis.json

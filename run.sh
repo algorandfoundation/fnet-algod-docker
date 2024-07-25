@@ -25,14 +25,15 @@ else
     exit 1
 fi
 
-mkdir -p data
+mkdir -p "$LOCAL_DATA_DIR"
+mkdir -p "$LOCAL_KMD_DIR"
 
 COPIED_PART=0
 # Copy participation keys
 # Matches required suffix [name].[first round].[last round].partkey
 for filepath in partkeys/*.*.*.partkey; do
     filename=$(basename "$filepath")
-    destpath="data/$filename"
+    destpath="$LOCAL_DATA_DIR/$filename"
     if [ -e "$destpath" ]; then
         echo "$LOGPFX Skipping $filepath because destination $destpath already exists"
         continue
