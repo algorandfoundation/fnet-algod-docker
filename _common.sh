@@ -33,7 +33,6 @@ function create_tokens {
       return 13
     fi
     local token=$(LC_ALL=C tr -dc A-Z0-9 < /dev/urandom | head -c $TOKEN_LENGTH)
-    echo token=$token fp=$filepath
     echo -n "$token" > $filepath
     echo "$LOGPFX Created $file $token"
   done
