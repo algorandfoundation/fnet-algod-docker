@@ -11,8 +11,6 @@ cd "$(dirname "$(realpath "$0")")"
 
 source _common.sh
 
-ensure_jq_installed
-
 # waits for address to have at least 100 ALGO
 wait_for_balance 7IBEAXHK62XEJATU6Q4QYQCDFY475CEKNXGLYQO6QSGCLVMMK4SLVTYLMY 100000000
 

@@ -7,7 +7,7 @@ cd "$(dirname "$(realpath "$0")")"
 
 source _common.sh
 
-ensure_jq_installed
+confirm_requirements
 
 # this will be cronned. if node is not running then quit
 # so as not to inadvertently reactivate stopped docker
@@ -24,7 +24,7 @@ TMPFILE=$(mktemp -p tmp -t genesis-XXXXX.json)
 trap 'rm "$TMPFILE"' EXIT
 
 # get latest genesis, commpare
-get_genesis > $TMPFILE
+get_genesis > "$TMPFILE"
 
 remote_md5=$(md5 "$TMPFILE")
 local_md5=$(md5 "persistent/genesis.json")

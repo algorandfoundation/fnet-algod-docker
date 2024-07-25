@@ -1,5 +1,6 @@
 persistent/algod.token
 persistent/algod.admin.token
+persistent/genesis.json
 partkeys/*
 data-fnet-v1/
 data-kmd-v0.5/
