@@ -32,7 +32,7 @@ function create_tokens {
       echo "$LOGPFX file $filepath already exists"
       return 13
     fi
-    local token=$(tr -dc A-Z0-9 < /dev/urandom | head -c $TOKEN_LENGTH)
+    local token=$(LC_ALL=C tr -dc A-Z0-9 < /dev/urandom | head -c $TOKEN_LENGTH)
     echo -n "$token" > $filepath
     echo "$LOGPFX Created $file $token"
   done
