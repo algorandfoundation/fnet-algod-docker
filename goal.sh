@@ -2,4 +2,4 @@
 
 cd "$(dirname "$(realpath "$0")")"
 
-docker exec -it node-fnet /node/goal -d /node/data "$@"
+DOCKER_CLI_HINTS=false docker exec -it node-fnet /node/goal -d /node/data "$@"
