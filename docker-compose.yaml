@@ -1,0 +1,26 @@
+services:
+  algod-fnet:
+    container_name: node-fnet
+    image: tasosbit/algod-fnet:latest
+    volumes:
+      - type: bind
+        source: ./data
+        target: /node/data/fnet-v1
+      - type: bind
+        source: ./persistent/genesis.json
+        target: /node/data/genesis.json
+      - type: bind
+        source: ./persistent/config.json
+        target: /node/data/config.json
+      - type: bind
+        source: ./persistent/algod.token
+        target: /node/data/algod.token
+      - type: bind
+        source: ./persistent/algod.admin.token
+        target: /node/data/algod.admin.token
+    network_mode: host        
+    restart: always
+    entrypoint:
+      - "/node/algod"
+      - "-d"
+      - "/node/data"

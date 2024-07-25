@@ -1,0 +1,5 @@
+persistent/algod.token
+persistent/algod.admin.token
+partkeys/*
+data/
+wipe.sh
