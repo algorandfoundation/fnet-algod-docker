@@ -2,10 +2,10 @@
 
 cd "$(dirname "$(realpath "$0")")"
 
-LOGPFX=$(basename $0)
+LOGPFX=$(basename "$0"):
 
-echo $LOGPFX: Stopping node
+echo $LOGPFX Stopping node
 
 docker compose down
 
-echo $LOGPFX: OK
+echo $LOGPFX OK

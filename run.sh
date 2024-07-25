@@ -2,7 +2,7 @@
 
 set -e
 shopt -s nullglob
-LOGPFX=$(basename $0)
+LOGPFX=$(basename "$0"):
 
 cd "$(dirname "$(realpath "$0")")"
 
@@ -17,11 +17,11 @@ ct_exit=$?
 set -e
 
 if [ $ct_exit -eq 13 ]; then
-    echo "$LOGPFX: Tokens exist, continuing"
+    echo "$LOGPFX Tokens exist, continuing"
 elif [ $ct_exit -eq 0 ]; then
-    echo "$LOGPFX: Created algod and admin tokens"
+    echo "$LOGPFX Created algod and admin tokens"
 else
-    echo "$LOGPFX: error"
+    echo "$LOGPFX error"
     exit 1
 fi
 
@@ -34,22 +34,22 @@ for filepath in partkeys/*.*.*.partkey; do
     filename=$(basename "$filepath")
     destpath="data/$filename"
     if [ -e "$destpath" ]; then
-        echo "$LOGPFX: Skipping $filepath because destination $destpath already exists"
+        echo "$LOGPFX Skipping $filepath because destination $destpath already exists"
         continue
     else
         cp "$filepath" "$destpath"
-        echo "$LOGPFX: Copied $filepath -> $destpath"
+        echo "$LOGPFX Copied $filepath -> $destpath"
         COPIED_PART=1
     fi
 done
 
 ./stop.sh
 
-echo "$LOGPFX: Starting node in background"
+echo "$LOGPFX Starting node in background"
 docker compose up -d
 
-echo "$LOGPFX: OK"
+echo "$LOGPFX OK"
 
 if [ $COPIED_PART -eq 1 ]; then
-    echo -e "$LOGPFX: Info: Copied participation keys. Check that they were automatically installed with:\n\n\t./goal.sh account partkeyinfo\n"
+    echo -e "$LOGPFX Info: Copied participation keys. Check that they were automatically installed with:\n\n\t./goal.sh account partkeyinfo\n"
 fi
