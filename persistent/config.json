@@ -1,5 +1,5 @@
 {
-		"Version": 33,
+    "Version": 33,
     "Archival": false,
     "CatchpointTracking": 0,
     "DNSBootstrapID": "<network>.algorand.green"
