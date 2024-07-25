@@ -1,40 +1,40 @@
 #!/usr/bin/env bash
 
 function get_genesis() {
-    bootstrap=_algobootstrap._tcp.fnet.algorand.green
-    port=8184
-    pfx="get_genesis:"
+    local bootstrap=_algobootstrap._tcp.fnet.algorand.green
+    local port=8184
+    local LOGPFX="get_genesis:"
 
-    resps=$(dig +short srv $bootstrap | cut -d\  -f4 | sed 's/\.$//' | shuf)
+    local resps=$(dig +short srv $bootstrap | cut -d\  -f4 | sed 's/\.$//' | shuf)
 
-    echo "$pfx Resolved $(echo -e "$resps" | wc -l) relays" >&2
+    echo "$LOGPFX Resolved $(echo -e "$resps" | wc -l) relays" >&2
 
     for relayHostname in $resps; do
         if genesis=$(curl -s "http://$relayHostname:$port/genesis"); then
-            echo "$pfx Got genesis, $(echo -e "$genesis" | wc -l) lines" >&2
+            echo "$LOGPFX Got genesis, $(echo -e "$genesis" | wc -l) lines" >&2
             echo -e "$genesis"
             return 0
         fi
     done
 
-    echo "$pfx Failed to get genesis"
+    echo "$LOGPFX Failed to get genesis"
 
     return 1
 }
 
 function create_tokens() {
-  TOKEN_LENGTH=64 # minimum length: 64
-  pfx="create_tokens:"
+  local TOKEN_LENGTH=64 # minimum length: 64
+  local LOGPFX="create_tokens:"
 
   for file in algod.token algod.admin.token; do
-    filepath="persistent/$file"
+    local filepath="persistent/$file"
     if [ -e "$filepath" ]; then
-      echo "$pfx file $filepath already exists"
+      echo "$LOGPFX file $filepath already exists"
       return 13
     fi
-    token=$(tr -dc A-Z0-9 </dev/urandom | head -c $TOKEN_LENGTH)
+    local token=$(tr -dc A-Z0-9 </dev/urandom | head -c $TOKEN_LENGTH)
     echo -n "$token" > $filepath
-    echo "$pfx Created $file $token"
+    echo "$LOGPFX Created $file $token"
   done
 
   return 0
