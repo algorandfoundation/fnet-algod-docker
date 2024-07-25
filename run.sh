@@ -35,6 +35,7 @@ fi
 if [ ! -e "$LOCAL_KMD_DIR" ]; then
     echo "$LOGPFX initializing local KMD directory"
     cp -r "$TEMPLATE_KMD_DIR" "$LOCAL_KMD_DIR"
+    chmod 700 "$LOCAL_KMD_DIR"
 fi
 
 # create tokens if needed. acceptable exit codes: 0, 13
