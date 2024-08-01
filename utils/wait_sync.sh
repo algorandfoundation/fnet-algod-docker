@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 
 LOGPFX=$(basename "$0"):
-cd "$(dirname "$(realpath "$0")")"
-cd ..
+cd "$(dirname "$(realpath "$0")")/.."
 
 source utils/_common.sh
 
-if ! is_node_running; then
-    echo "$LOGPFX: Node is not running"
+if ! ./utils/is_node_running.sh; then
+    echo "$LOGPFX Node is not running"
     exit 1
 fi
 
 echo -n "$LOGPFX Waiting"
 
-while is_node_syncing; do
+while ./utils/is_node_syncing.sh; do
     echo -n "."
     sleep 3
 done

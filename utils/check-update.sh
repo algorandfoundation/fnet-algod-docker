@@ -3,8 +3,7 @@
 set -e
 
 LOGPFX=$(basename "$0"):
-cd "$(dirname "$(realpath "$0")")"
-cd ..
+cd "$(dirname "$(realpath "$0")")/.."
 
 source utils/_common.sh
 
@@ -13,7 +12,7 @@ confirm_requirements
 # this will be cronned. if node is not running then quit
 # so as not to inadvertently reactivate stopped docker
 # services when the network resets
-if ! is_node_running; then
+if ! ./utils/is_node_running.sh; then
     echo "$LOGPFX Node was not running, quitting"
     exit 2
 fi
@@ -40,13 +39,13 @@ else
     echo "$LOGPFX Resetting"
     ./utils/reset.sh -y
 
-    sleep 3
+    ./utils/wait_node_start.sh
 
     echo "$LOGPFX Waiting for sync"
     ./utils/wait-sync.sh
 
-    if [ -e "on-automatic-reset.sh" ]; then
-        echo "$LOGPFX Running user bootstrap script on-automatic-reset.sh"
-        exec on-automatic-reset.sh
+    if [ -e "on-network-reset.sh" ]; then
+        echo "$LOGPFX Running user bootstrap script on-network-reset.sh"
+        exec on-network-reset.sh
     fi
 fi

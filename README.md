@@ -8,9 +8,9 @@ Scripts:
 
 `./goal.sh` wraps goal, e.g. `./goal.sh node status` - it can also be piped to, e.g. `echo "apple apple ..." | ./goal.sh account import`
 
-`./utils/reset.sh` wipes local network data and genesis file and restart the node. This is required if genesis has changed since you ran your node.
+`./utils/reset.sh` clears local algod data and genesis file and restarts the node. This is required if genesis has changed since you ran your node.
 
-`./utils/check-update.sh` can be cronned to check for upstream network resets. If it finds a different genesis file, it will reset the node (wiping all local data) and restart it with the new genesis file. 👉 Finally it will run the `on-automatic-reset.sh` script, **where you can place any bootstrap commands you want to execute when the network resets**, e.g. waiting for funds and registering online. If you import accounts to goal/kmd, these will be persisted through resets.
+`./utils/check-update.sh` can be cronned to check for upstream network resets. If it finds a different genesis file, it will reset the node (wiping all local data) and restart it with the new genesis file. 👉 Finally it will run the `on-network-reset.sh` script, **where you can place any bootstrap commands you want to execute when the network resets**, e.g. waiting for funds and registering online. If you import accounts to goal/kmd, these will be persisted through resets.
 
 `./utils/shell.sh` starts a shell in the docker container
 
