@@ -4,8 +4,9 @@ set -e
 
 LOGPFX=$(basename "$0"):
 cd "$(dirname "$(realpath "$0")")"
+cd ..
 
-source _common.sh
+source utils/_common.sh
 
 confirm_requirements
 
@@ -27,7 +28,7 @@ trap 'rm "$TMPFILE"' EXIT
 get_genesis > "$TMPFILE"
 
 remote_md5=$(md5 "$TMPFILE")
-local_md5=$(md5 "persistent/genesis.json")
+local_md5=$(md5 "config/genesis.json")
 
 if [ "$remote_md5" = "$local_md5" ]; then
     echo "$LOGPFX Local genesis is up to date $local_md5 = $remote_md5"
@@ -37,12 +38,12 @@ else
     echo "$LOGPFX New genesis, resetting node"
 
     echo "$LOGPFX Resetting"
-    ./reset.sh -y
+    ./utils/reset.sh -y
 
     sleep 3
 
     echo "$LOGPFX Waiting for sync"
-    ./wait-sync.sh
+    ./utils/wait-sync.sh
 
     if [ -e "on-automatic-reset.sh" ]; then
         echo "$LOGPFX Running user bootstrap script on-automatic-reset.sh"

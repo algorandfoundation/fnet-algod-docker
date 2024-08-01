@@ -10,16 +10,16 @@ services:
         source: ./data-kmd-v0.5
         target: /node/data/kmd-v0.5
       - type: bind
-        source: ./persistent/genesis.json
+        source: ./config/genesis.json
         target: /node/data/genesis.json
       - type: bind
-        source: ./persistent/config.json
+        source: ./config/config.json
         target: /node/data/config.json
       - type: bind
-        source: ./persistent/algod.token
+        source: ./config/algod.token
         target: /node/data/algod.token
       - type: bind
-        source: ./persistent/algod.admin.token
+        source: ./config/algod.admin.token
         target: /node/data/algod.admin.token
     network_mode: host        
     restart: always

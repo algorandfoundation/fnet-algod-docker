@@ -27,13 +27,14 @@ function get_genesis {
 
   return 1
 }
+export -f get_genesis
 
 function create_tokens {
   local TOKEN_LENGTH=64 # minimum length: 64
   local LOGPFX="create_tokens:"
 
   for file in algod.token algod.admin.token; do
-    local filepath="persistent/$file"
+    local filepath="config/$file"
     if [ -e "$filepath" ]; then
       echo "$LOGPFX file $filepath already exists"
       return 13
@@ -45,10 +46,12 @@ function create_tokens {
 
   return 0
 }
+export -f create_tokens
 
 function md5 {
     md5sum "$1" | cut -d\  -f1
 }
+export -f md5
 
 function is_node_running {
   if [[ $(docker inspect node-fnet 2> /dev/null | jq -r '.[]|select(.Name == "/node-fnet")|.State.Running') = "true" ]]; then
@@ -74,25 +77,26 @@ function confirm_requirements {
   done
   echo "OK"
 }
+export -f confirm_requirements
 
 function get_balance {
-  ./goal.sh account dump -a "$1" | jq -r '.algo // 0'
+  ../goal.sh account dump -a "$1" | jq -r '.algo // 0'
 }
+export -f get_balance
 
 function wait_for_balance {
   addr=$1
   amt=$2
   LOGPFX="wait_for_balance:"
   echo -n "$LOGPFX Waiting for ${addr:0:6}.. to reach $amt microalgo"
-  while [ $(get_balance "$addr") -lt "$amt" ]; do
+  while [ "$(get_balance "$addr")" -lt "$amt" ]; do
     echo -n "."
     sleep 30;
   done
 }
-
-export -f get_genesis
-export -f create_tokens
-export -f md5
-export -f confirm_requirements
-export -f get_balance
 export -f wait_for_balance
+
+function is_node_syncing {
+  ! ./goal.sh node status | grep -q 'Sync Time: 0.0s'
+}
+export -f is_node_syncing

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$(realpath "$0")")"
+cd ..
 
 if [ "$1" != "-y" ]; then
   echo "This will destroy all data in the node and re-create it."
@@ -11,7 +12,7 @@ if [ "$1" != "-y" ]; then
   exit 1
 fi
 
-source _common.sh
+source utils/_common.sh
 
 # stop node if needed
 ./stop.sh
@@ -20,7 +21,7 @@ source _common.sh
 rm -rf "$LOCAL_DATA_DIR"
 mkdir "$LOCAL_DATA_DIR"
 
-get_genesis > persistent/genesis.json
+get_genesis > config/genesis.json
 
 # configure and run node
 ./run.sh
