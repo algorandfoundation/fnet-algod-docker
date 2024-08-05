@@ -42,7 +42,7 @@ else
     ./utils/wait_node_start.sh
 
     echo "$LOGPFX Waiting for sync"
-    ./utils/wait-sync.sh
+    ./utils/wait_sync.sh
 
     if [ -e "on-network-reset.sh" ]; then
         echo "$LOGPFX Running user bootstrap script on-network-reset.sh"
