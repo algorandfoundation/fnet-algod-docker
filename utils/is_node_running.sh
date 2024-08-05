@@ -15,7 +15,7 @@ if [[ "$RUN_STATE" != "true" ]]; then
 fi
 
 # Is algod booted inside container?
-./goal.sh node status > /dev/null 2>&1
+$GOAL_CMD node status > /dev/null 2>&1
 
 # Give a second or two for Sync time to budge from zero
 # if we are not synced
