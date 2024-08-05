@@ -77,22 +77,13 @@ if [ $COPIED_PART -eq 1 ]; then
     echo -e "$LOGPFX Info: Copied participation keys. Check that they were automatically installed with:\n\n\t$GOAL_CMD account partkeyinfo\n"
 fi
 
+echo "$LOGPFX Waiting for node to start"
 ./utils/wait_node_start.sh
 
 # Wait to sync normally, then start fast catchup
 echo "$LOGPFX Waiting 90 seconds for sync. Ctrl+C to skip"
-# jumping through hoops to make ctrl+c propagate to the timeout cmd
-trap 'kill -INT -$pid' INT
-set +e
-timeout 90 ./utils/wait_sync.sh &
-pid=$!
-wait $pid
-set -e
-# Undo ctrl+c trap
-trap - INT
-
-if ./utils/is_node_syncing.sh; then
-    echo "$LOGPFX Not synced yet, starting fast catchup"
+if ! ./utils/wait_sync.sh 90; then
+    echo "$LOGPFX Not synced after 90 seconds"
     ./utils/catchup.sh
 fi
 

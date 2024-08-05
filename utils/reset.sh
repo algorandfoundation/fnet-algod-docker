@@ -20,7 +20,7 @@ source utils/_common.sh
 rm -rf "$LOCAL_DATA_DIR"
 mkdir "$LOCAL_DATA_DIR"
 
-./scripts/get_genesis.sh > config/genesis.json
+./utils/get_genesis.sh > config/genesis.json
 
 # configure and run node
 ./run.sh

@@ -3,7 +3,7 @@
 set -e
 
 LOGPFX=$(basename "$0"):
-cd "$(dirname "$(realpath "$0")")/.."
+cd "$(dirname "$(realpath "$0")")"
 
 source utils/_common.sh
 
@@ -24,7 +24,7 @@ TMPFILE=$(mktemp -p tmp -t genesis-XXXXX.json)
 trap 'rm "$TMPFILE"' EXIT
 
 # get latest genesis, commpare
-get_genesis > "$TMPFILE"
+./utils/get_genesis.sh > "$TMPFILE"
 
 remote_md5=$(md5 "$TMPFILE")
 local_md5=$(md5 "config/genesis.json")
