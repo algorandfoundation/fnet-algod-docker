@@ -2,7 +2,7 @@
 
 ## Overview
 
-Set of scripts to configure and run a dockerized algod for [fnet](https://fnet.algorand.green/).
+A set of scripts to configure and run a dockerized algod for [fnet](https://fnet.algorand.green/).
 
 The Fnet network will be reset periodically. The scripts support automatically resetting the node to follow along with the new network.
 

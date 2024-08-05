@@ -8,6 +8,8 @@ export TEMPLATE_KMD_DIR=template-kmd-v0.5
 
 export GOAL_CMD="./goal.sh"
 
+export DOCKER_CLI_HINTS=false
+
 function confirm_requirements {
   # check that requirements are installed
   # override default list by calling with arguments

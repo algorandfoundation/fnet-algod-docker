@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-docker exec -it node-fnet /bin/ash
+source utils/_common.sh
+
+DOCKER_CLI_HINTS=false docker exec -it node-fnet /bin/ash
