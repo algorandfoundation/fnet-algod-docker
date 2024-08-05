@@ -5,14 +5,14 @@ cd "$(dirname "$(realpath "$0")")/.."
 
 source utils/_common.sh
 
-TIMEOUT=${1:-0}
+TIMEOUT=$1
 
 if ! ./utils/is_node_running.sh; then
     echo "$LOGPFX Node is not running"
     exit 1
 fi
 
-if [ "$TIMEOUT" -ne 0 ]; then
+if [ "$TIMEOUT" != "" ]; then
     echo "$LOGPFX Timeout: $TIMEOUT s."
 fi
 
@@ -22,7 +22,7 @@ trap 'exit 1' INT
 
 START=$(date +%s)
 while ./utils/is_node_syncing.sh; do
-    if [ "$TIMEOUT" -ne 0 ]; then
+    if [[ "$TIMEOUT" != "" ]]; then
         NOW=$(date +%s)
         if [ $(( NOW - START )) -gt $TIMEOUT ]; then
             echo -e "\n$LOGPFX timed out"
