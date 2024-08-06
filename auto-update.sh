@@ -44,8 +44,10 @@ else
     echo "$LOGPFX Waiting for sync"
     ./utils/wait_sync.sh
 
+    set -o xtrace
+    pwd
     if [ -e "on-network-reset.sh" ]; then
         echo "$LOGPFX Running user bootstrap script on-network-reset.sh"
-        exec on-network-reset.sh
+        exec ./on-network-reset.sh
     fi
 fi
