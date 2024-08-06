@@ -10,7 +10,7 @@ The `on-network-reset.sh` script can also be utilized to bootstrap some user act
 
 A default passwordless KMD will be available in the container. Accounts you import **will** be persisted when you reset the network data dir (through `utils/reset.sh`)
 
-Participation keys in `partkeys/` will be copied into the data directory and automatically installed. _Note: the filename is required to follow this format: `[name].[first round].[last round].partkey` e.g. `2AQQU742K66T26EUYXH7CB3D4TL5KG7GN3S52CJZAYHDVQ76HFPSWCJUJ4.0.1000000.partkey`_
+Participation keys in `partkeys/` will be copied into the data directory and automatically installed **when the node first boots (without network data state)**. If you generate participation keys after booting your node, you can reset it with `./utils/reset.sh -y` and it will import the participation keys the next time you run `./run.sh`. _Note: the filename is required to follow this format: `[name].[first round].[last round].partkey` e.g. `2AQQU742K66T26EUYXH7CB3D4TL5KG7GN3S52CJZAYHDVQ76HFPSWCJUJ4.0.1000000.partkey`_
 
 Participation keyfiles (.partkey) can be generated standalone using `utils/algokey`, e.g. `algokey part generate --parent 2AQQU742K66T26EUYXH7CB3D4TL5KG7GN3S52CJZAYHDVQ76HFPSWCJUJ4 --first 0 --last 1000000 --dilution 1000 --keyfile 2AQQU742K66T26EUYXH7CB3D4TL5KG7GN3S52CJZAYHDVQ76HFPSWCJUJ4.0.1000000.partkey`
 
