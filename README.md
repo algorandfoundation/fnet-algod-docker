@@ -38,6 +38,8 @@ Two important utilities you may want to use:
 
 `./utils/create_tokens.sh` Creates algod.token and algod.admin.token
 
+`./utils/get_account_eligibility.sh $account` Gets the specified $account's incentives eligibility.
+
 `./utils/get_balance.sh $account` Gets microALGO balance of account `$account` through local node
 
 `./utils/get_genesis.sh` Fetches latest genesis file from a relay
