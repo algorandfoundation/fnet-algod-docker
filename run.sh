@@ -8,22 +8,18 @@ cd "$(dirname "$(realpath "$0")")"
 
 source utils/_common.sh
 
+WAIT_SYNC_TIME_BEFORE_CATCHUP=9 # seconds
+
 # Check all requirements are installed
 confirm_requirements
 
-# TODO fetch and compare, warn that a reset is needed if it has changed
+# First run; fetch latest genesis from a relay
 if [ ! -f config/genesis.json ]; then
-    # Fetch latest genesis from a relay
     ./utils/get_genesis.sh > config/genesis.json
 elif [ -f "$LOCAL_DATA_DIR/ledger.block.sqlite"  ]; then
     # if we have a genesis AND the local data dir is initialized, check compatibility
-    TMPFILE=$(mktemp -p tmp -t genesis-XXXXX.json)
-    trap 'rm "$TMPFILE"' EXIT
-
     # get latest genesis, commpare
-    ./utils/get_genesis.sh > "$TMPFILE"
-
-    remote_md5=$(md5 "$TMPFILE")
+    remote_md5=$(./utils/get_genesis.sh | md5sum | cut -d\  -f1)
     local_md5=$(md5 "config/genesis.json")
 
     if [[ "$remote_md5" != "$local_md5" ]]; then
@@ -88,10 +84,13 @@ else
 fi
 
 # Wait to sync normally, then start fast catchup
-echo "$LOGPFX Waiting 90 seconds for sync. Ctrl+C to skip"
-if ! ./utils/wait_sync.sh 90; then
-    echo "$LOGPFX Not synced after 90 seconds"
-    ./utils/catchup.sh
+echo "$LOGPFX Waiting $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds for sync. Ctrl+C to skip"
+if ! ./utils/wait_sync.sh $WAIT_SYNC_TIME_BEFORE_CATCHUP; then
+    echo "$LOGPFX Not synced after $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds. Doing fast catchup"
+    if ! ./utils/catchup.sh; then
+        echo "$LOGPFX Fast catchup failed; waiting for sync indefinitely"
+        ./utils/wait_sync.sh
+    fi
 fi
 
 echo "$LOGPFX OK"

@@ -4,3 +4,4 @@ config/genesis.json
 partkeys/*
 data-fnet-v1/
 data-kmd-v0.5/
+tmp/
