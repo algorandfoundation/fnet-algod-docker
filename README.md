@@ -34,7 +34,7 @@ Two important utilities you may want to use:
 
 ### Minor
 
-`./utils/catchup.sh` Starts fast catchup, relies on nodely API to get catchpoint
+`./utils/catchup.sh` Starts fast catchup, waits for sync.
 
 `./utils/create_tokens.sh` Creates algod.token and algod.admin.token
 

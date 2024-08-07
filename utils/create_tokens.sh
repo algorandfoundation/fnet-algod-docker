@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Relies on nodely, trusting the catchpoint
-
 LOGPFX=$(basename "$0"):
 cd "$(dirname "$(realpath "$0")")/.."
 
