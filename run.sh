@@ -83,6 +83,8 @@ else
     echo "OK"
 fi
 
+sleep 5 # give some more time, had "synced" false positives
+
 # Wait to sync normally, then start fast catchup
 echo "$LOGPFX Waiting $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds for sync. Ctrl+C to skip"
 if ! ./utils/wait_sync.sh $WAIT_SYNC_TIME_BEFORE_CATCHUP; then
