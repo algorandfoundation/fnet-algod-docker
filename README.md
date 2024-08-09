@@ -4,6 +4,8 @@
 
 A set of scripts to configure and run a dockerized algod for [fnet](https://fnet.algorand.green/).
 
+**Entry point: `./run.sh`**. Run this to configure and start your container.
+
 The Fnet network will be reset periodically. The scripts support automatically resetting the node to follow along with the new network.
 
 The `on-network-reset.sh` script can also be utilized to bootstrap some user actions when a new instance of the network is created, such as keyreg online, create applications, fund other addresses, etc.
@@ -16,7 +18,7 @@ Participation keyfiles (.partkey) can be generated standalone using `utils/algok
 
 ## Table of Contents
 
-`./run.sh` configures a local docker algod instance and starts it
+`./run.sh` **Entry point.** Configures a local docker algod instance and starts it
 
 `./stop.sh` stops the docker instance
 
