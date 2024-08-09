@@ -10,6 +10,9 @@ export GOAL_CMD="./goal.sh"
 
 export DOCKER_CLI_HINTS=false
 
+# auto-update does not work on Mac without this
+export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
+
 function confirm_requirements {
   # check that requirements are installed
   # override default list by calling with arguments
