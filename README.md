@@ -18,6 +18,8 @@ Participation keyfiles (.partkey) can be generated standalone using `utils/algok
 
 ## Table of Contents
 
+These scripts are to be run on your **host** machine.
+
 `./run.sh` **Entry point.** Configures a local docker algod instance and starts it
 
 `./stop.sh` stops the docker instance
