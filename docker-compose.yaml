@@ -2,6 +2,9 @@ services:
   algod-fnet:
     container_name: node-fnet
     image: tasosbit/algod-fnet:latest
+    environment:
+      ALGORAND_DATA: "/node/data"
+      PATH: "$PATH:/node"
     volumes:
       - type: bind
         source: ./data-fnet-v1
