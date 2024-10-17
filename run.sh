@@ -28,13 +28,6 @@ elif [ -f "$LOCAL_DATA_DIR/ledger.block.sqlite"  ]; then
     fi
 fi
 
-# Initialize data and KMD directories
-if [ ! -e "$LOCAL_KMD_DIR" ]; then
-    echo "$LOGPFX initializing local KMD directory"
-    cp -r "$TEMPLATE_KMD_DIR" "$LOCAL_KMD_DIR"
-    chmod 700 "$LOCAL_KMD_DIR"
-fi
-
 # create tokens if needed. acceptable exit codes: 0, 13
 ./utils/create_tokens.sh
 
@@ -57,8 +50,21 @@ for filepath in partkeys/*.*.*.partkey; do
     fi
 done
 
-echo "$LOGPFX Fetching latest docker image"
-docker pull tasosbit/algod-fnet:latest
+# echo "$LOGPFX Fetching latest docker image"
+# docker pull tasosbit/algod-fnet:latest #TODO uncomment
+
+NEW_KMD=0
+# Initialize data and KMD directories
+# Migrate may start the node - this must happen when we are ready for that
+if [ ! -e "$LOCAL_KMD_DIR" ]; then
+    echo "$LOGPFX initializing local KMD directory"
+    # cp -r "$TEMPLATE_KMD_DIR" "$LOCAL_KMD_DIR"
+    mkdir -p "$LOCAL_KMD_DIR"
+    chmod 700 "$LOCAL_KMD_DIR"
+    NEW_KMD=1
+else
+    ./utils/migrate-vulnerable-kmd.sh
+fi
 
 if ./utils/is_node_running.sh; then
     echo "$LOGPFX node is running, stopping it"
@@ -81,6 +87,11 @@ if ! ./utils/is_node_running.sh; then
     exit 1
 else
     echo "OK"
+fi
+
+if [ $NEW_KMD -eq 1 ]; then
+    echo -e "\n$LOGPFX Creating KMD wallet"
+    ./goal.sh wallet new default -n
 fi
 
 sleep 5 # give some more time, had "synced" false positives
