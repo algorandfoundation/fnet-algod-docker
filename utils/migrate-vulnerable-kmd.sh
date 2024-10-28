@@ -3,7 +3,7 @@
 LOGPFX=$(basename "$0"):
 cd "$(dirname "$(realpath "$0")")/.."
 
-set -eo xtrace
+set -e
 
 source utils/_common.sh
 

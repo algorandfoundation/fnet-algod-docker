@@ -56,7 +56,7 @@ done
 NEW_KMD=0
 # Initialize data and KMD directories
 # Migrate may start the node - this must happen when we are ready for that
-if [ ! -e "$LOCAL_KMD_DIR" ]; then
+if [ ! -e "$LOCAL_KMD_DIR/kmd.token" ]; then
     echo "$LOGPFX initializing local KMD directory"
     # cp -r "$TEMPLATE_KMD_DIR" "$LOCAL_KMD_DIR"
     mkdir -p "$LOCAL_KMD_DIR"
