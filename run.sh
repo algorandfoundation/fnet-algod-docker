@@ -57,8 +57,8 @@ for filepath in partkeys/*.*.*.partkey; do
     fi
 done
 
-echo "$LOGPFX Fetching latest docker image"
-docker pull tasosbit/algod-fnet:latest
+# echo "$LOGPFX Fetching latest docker image"
+# docker pull tasosbit/algod-fnet:latest # TODO uncomment
 
 if ./utils/is_node_running.sh; then
     echo "$LOGPFX node is running, stopping it"
