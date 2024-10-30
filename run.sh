@@ -58,7 +58,7 @@ for filepath in partkeys/*.*.*.partkey; do
 done
 
 echo "$LOGPFX Fetching latest docker image"
-docker pull tasosbit/algod-fnet:latest
+docker pull "$DOCKER_IMAGE_TAG"
 
 if ./utils/is_node_running.sh; then
     echo "$LOGPFX node is running, stopping it"
@@ -83,16 +83,19 @@ else
     echo "OK"
 fi
 
-sleep 5 # give some more time, had "synced" false positives
+# Disabled until fast catchup issue with online_stake is fixed
+# sleep 5 # give some more time, had "synced" false positives
+# 
+# # Wait to sync normally, then start fast catchup
+# echo "$LOGPFX Waiting $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds for sync. Ctrl+C to skip"
+# if ! ./utils/wait_sync.sh $WAIT_SYNC_TIME_BEFORE_CATCHUP; then
+#     echo "$LOGPFX Not synced after $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds. Doing fast catchup"
+#     if ! ./utils/catchup.sh; then
+#         echo "$LOGPFX Fast catchup failed; waiting for sync indefinitely"
+#         ./utils/wait_sync.sh
+#     fi
+# fi
 
-# Wait to sync normally, then start fast catchup
-echo "$LOGPFX Waiting $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds for sync. Ctrl+C to skip"
-if ! ./utils/wait_sync.sh $WAIT_SYNC_TIME_BEFORE_CATCHUP; then
-    echo "$LOGPFX Not synced after $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds. Doing fast catchup"
-    if ! ./utils/catchup.sh; then
-        echo "$LOGPFX Fast catchup failed; waiting for sync indefinitely"
-        ./utils/wait_sync.sh
-    fi
-fi
+echo "$LOGPFX Note: Automatic fast catchup is skipped due to some catchpoints failing. If needed, find a known-good catchpoint manually or run ./utils/catchup.sh and monitor the outcome. The known issue manifests as stalling at the catchpoint round after the catchup completes."
 
 echo "$LOGPFX OK"

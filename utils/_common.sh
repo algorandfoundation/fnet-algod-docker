@@ -10,6 +10,8 @@ export GOAL_CMD="./goal.sh"
 
 export DOCKER_CLI_HINTS=false
 
+export DOCKER_IMAGE_TAG=tasosbit/algod-fnet:latest
+
 # auto-update does not work on Mac without this
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 

@@ -32,6 +32,12 @@ local_md5=$(md5 "config/genesis.json")
 if [ "$remote_md5" = "$local_md5" ]; then
     echo "$LOGPFX Local genesis is up to date $local_md5 = $remote_md5"
     echo "$LOGPFX Nothing to do"
+
+    # check update available. If so, stop and run
+    if ./utils/check_image_update_needed.sh; then
+        ./stop.sh
+        ./run.sh # will pull and start
+    fi
 else
     echo "$LOGPFX Local genesis was $local_md5, remote was $remote_md5"
     echo "$LOGPFX New genesis, resetting node"
