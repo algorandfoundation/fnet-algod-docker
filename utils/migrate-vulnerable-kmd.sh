@@ -28,18 +28,47 @@ function start_node {
     echo "$LOGPFX Starting node"
     docker compose up -d
 
-    echo -n "$LOGPFX Waiting for node to start "
+    echo -n "$LOGPFX Waiting for node to start"
     ./utils/wait_node_start.sh
+    echo " OK"
 }
 
 MNEMS=""
 if [ "$KMD_TOKEN_SHA" == "dfaa30304a49159eece365b7d02b2de40d86ecd3c8727fede05429b801aaab8b" ]; then
-    echo "$LOGPFX Replacing vulnerable KMD"
 
-    # Start node to export mnemonics
-    if ! utils/is_node_running.sh; then
-        start_node
+    cat << EOF
+
+###########################
+##    SECURITY NOTICE    ##
+###########################
+##
+## Early versions of this repo shared the same KMD master derivation key (MDK) among all users.
+## This results in accounts created with "goal account new" being compromised.
+## Imported accounts and participation keys are not affected.
+##
+## Read more here: https://github.com/algorandfoundation/fnet-algod-docker/issues/6
+##
+## This releases includes an automated migration that will:
+## 1) create a new default wallet with a secure MDK
+## 2) migrate your stored accounts from the vulnerable KMD wallet
+## 3) rename the vulnerable wallet to "vulnerable-caution"
+##
+## This operation should be non-destructive.
+
+EOF
+    read -p "Migrate vulnerable KMD? [y/N] " -n 1 -r
+    echo    # (optional) move to a new line
+    if ! [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        echo "Not migrating."
+        exit 0
     fi
+    
+    echo "$LOGPFX Replacing vulnerable KMD"
+    echo "$LOGPFX Restarting node"
+
+    ./stop.sh
+    start_node
 
     ADDRS=$(./goal.sh account list | grep -v "Did not find any account" | awk '{ print $3 }')
     ADDR_COUNT=$(echo -e "$ADDRS" | wc -l)
