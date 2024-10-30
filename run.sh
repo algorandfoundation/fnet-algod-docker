@@ -73,7 +73,7 @@ if [ $COPIED_PART -eq 1 ]; then
     echo -e "$LOGPFX Info: Copied participation keys. Check that they were automatically installed with:\n\n\t$GOAL_CMD account partkeyinfo\n"
 fi
 
-echo -n "$LOGPFX Waiting for node to start "
+echo -n "$LOGPFX Waiting for node to start"
 ./utils/wait_node_start.sh
 
 if ! ./utils/is_node_running.sh; then
