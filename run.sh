@@ -90,7 +90,7 @@ fi
 
 if [ $NEW_KMD -eq 1 ]; then
     echo -e "\n$LOGPFX Creating KMD wallet"
-    ./goal.sh wallet new default -n
+    $GOAL_CMD wallet new default -n
 fi
 
 ## Disabled until fast catchup issue with online_stake is fixed
