@@ -28,13 +28,6 @@ elif [ -f "$LOCAL_DATA_DIR/ledger.block.sqlite"  ]; then
     fi
 fi
 
-# Initialize data and KMD directories
-if [ ! -e "$LOCAL_KMD_DIR" ]; then
-    echo "$LOGPFX initializing local KMD directory"
-    cp -r "$TEMPLATE_KMD_DIR" "$LOCAL_KMD_DIR"
-    chmod 700 "$LOCAL_KMD_DIR"
-fi
-
 # create tokens if needed. acceptable exit codes: 0, 13
 ./utils/create_tokens.sh
 
@@ -58,7 +51,19 @@ for filepath in partkeys/*.*.*.partkey; do
 done
 
 echo "$LOGPFX Fetching latest docker image"
-docker pull tasosbit/algod-fnet:latest
+docker pull "$DOCKER_IMAGE_TAG"
+
+NEW_KMD=0
+# Initialize data and KMD directories
+# Migrate may start the node - this must happen when we are ready for that
+if [ ! -e "$LOCAL_KMD_DIR/kmd.token" ]; then
+    echo "$LOGPFX initializing local KMD directory"
+    mkdir -p "$LOCAL_KMD_DIR"
+    chmod 700 "$LOCAL_KMD_DIR"
+    NEW_KMD=1
+else
+    ./utils/migrate-vulnerable-kmd.sh
+fi
 
 if ./utils/is_node_running.sh; then
     echo "$LOGPFX node is running, stopping it"
@@ -73,7 +78,7 @@ if [ $COPIED_PART -eq 1 ]; then
     echo -e "$LOGPFX Info: Copied participation keys. Check that they were automatically installed with:\n\n\t$GOAL_CMD account partkeyinfo\n"
 fi
 
-echo -n "$LOGPFX Waiting for node to start "
+echo -n "$LOGPFX Waiting for node to start"
 ./utils/wait_node_start.sh
 
 if ! ./utils/is_node_running.sh; then
@@ -83,16 +88,25 @@ else
     echo "OK"
 fi
 
-sleep 5 # give some more time, had "synced" false positives
-
-# Wait to sync normally, then start fast catchup
-echo "$LOGPFX Waiting $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds for sync. Ctrl+C to skip"
-if ! ./utils/wait_sync.sh $WAIT_SYNC_TIME_BEFORE_CATCHUP; then
-    echo "$LOGPFX Not synced after $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds. Doing fast catchup"
-    if ! ./utils/catchup.sh; then
-        echo "$LOGPFX Fast catchup failed; waiting for sync indefinitely"
-        ./utils/wait_sync.sh
-    fi
+if [ $NEW_KMD -eq 1 ]; then
+    echo -e "\n$LOGPFX Creating KMD wallet"
+    $GOAL_CMD wallet new default -n
 fi
+
+## Disabled until fast catchup issue with online_stake is fixed
+#
+# sleep 5 # give some more time, had "synced" false positives
+# 
+# # Wait to sync normally, then start fast catchup
+# echo "$LOGPFX Waiting $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds for sync. Ctrl+C to skip"
+# if ! ./utils/wait_sync.sh $WAIT_SYNC_TIME_BEFORE_CATCHUP; then
+#     echo "$LOGPFX Not synced after $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds. Doing fast catchup"
+#     if ! ./utils/catchup.sh; then
+#         echo "$LOGPFX Fast catchup failed; waiting for sync indefinitely"
+#         ./utils/wait_sync.sh
+#     fi
+# fi
+
+echo "$LOGPFX Note: Automatic fast catchup is skipped due to some catchpoints failing. If needed, find a known-good catchpoint manually or run ./utils/catchup.sh and monitor the outcome. The known issue manifests as stalling at the catchpoint round after the catchup completes."
 
 echo "$LOGPFX OK"
