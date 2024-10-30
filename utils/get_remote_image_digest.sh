@@ -25,4 +25,4 @@ if [ -z "$dcd" ]; then
         exit 1
 fi
 
-echo "$dcd" | cut -d\  -f2-
+echo "$dcd" | cut -d\  -f2 | tr -d '\r\n'
