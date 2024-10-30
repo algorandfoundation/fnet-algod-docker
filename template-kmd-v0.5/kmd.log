@@ -1,7 +1,0 @@
-time="2024-07-25T14:56:16.083128 +0000" level=info msg="failed to mlockall: cannot allocate memory" file=mlock_linux.go function=main.tryMlockall line=30
-time="2024-07-25T14:56:16.084215 +0000" level=info msg="started kmd on sock: 127.0.0.1:7833" file=main.go function=main.runKmd line=118
-time="2024-07-25T14:57:41.295273 +0000" level=info msg="killing kmd after timeout" file=server.go function="github.com/algorand/go-algorand/daemon/kmd/server.(*WalletServer).makeWatchdogCallback.func2" line=173
-time="2024-07-25T14:57:41.295425 +0000" level=info msg="kmd wallet HTTP server stopped with: http: Server closed" file=server.go function="github.com/algorand/go-algorand/daemon/kmd/server.(*WalletServer).start.func2" line=277
-time="2024-07-25T14:57:41.295537 +0000" level=info msg="kmd server died. exiting..." file=main.go function=main.runKmd line=122
-time="2024-07-25T14:59:53.747900 +0000" level=info msg="failed to mlockall: cannot allocate memory" file=mlock_linux.go function=main.tryMlockall line=30
-time="2024-07-25T14:59:53.748945 +0000" level=info msg="started kmd on sock: 127.0.0.1:7833" file=main.go function=main.runKmd line=118

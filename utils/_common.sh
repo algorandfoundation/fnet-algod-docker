@@ -4,8 +4,6 @@ export LOCAL_DATA_DIR=data-fnet-v1
 
 export LOCAL_KMD_DIR=data-kmd-v0.5
 
-export TEMPLATE_KMD_DIR=template-kmd-v0.5
-
 export GOAL_CMD="./goal.sh"
 
 export DOCKER_CLI_HINTS=false
