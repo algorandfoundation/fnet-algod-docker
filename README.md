@@ -2,11 +2,25 @@
 
 ## Overview
 
-A set of scripts to configure and run a dockerized algod for [fnet](https://fnet.algorand.green/).
+A set of scripts to configure and run a dockerized algod for [FNet](https://fnet.algorand.green/).
 
-The Fnet network will be reset periodically. The scripts support automatically resetting the node to follow along with the new network.
+## Getting Started
+
+Use the `run` script to configure and launch an FNet node
+
+```
+./run.sh
+```
+
+## Automatic Updates 
+
+To update your node automatically, set up a cron job to execute `auto-update.sh`
+
+The Fnet network may be reset. The scripts support automatically resetting the node to follow along with the new network.
 
 The `on-network-reset.sh` script can also be utilized to bootstrap some user actions when a new instance of the network is created, such as keyreg online, create applications, fund other addresses, etc.
+
+## KMD & Participation keys
 
 A default passwordless KMD will be available in the container. Accounts you import **will** be persisted when you reset the network data dir (through `utils/reset.sh`)
 
@@ -16,7 +30,9 @@ Participation keyfiles (.partkey) can be generated standalone using `utils/algok
 
 ## Table of Contents
 
-`./run.sh` configures a local docker algod instance and starts it
+These scripts are to be run on your **host** machine.
+
+`./run.sh` **Entry point.** Configures a local docker algod instance and starts it
 
 `./stop.sh` stops the docker instance
 
@@ -26,13 +42,11 @@ Participation keyfiles (.partkey) can be generated standalone using `utils/algok
 
 ## Utilities
 
-Two important utilities you may want to use:
+These scripts are to be run on your **host** machine.
 
 `./utils/shell.sh` starts a shell in the docker container
 
 `./utils/reset.sh` clears local algod data and genesis file and restarts the node. Does not reset KMD data. This is required if genesis has changed since you last ran your node.
-
-### Minor
 
 `./utils/catchup.sh` Starts fast catchup, waits for sync.
 
