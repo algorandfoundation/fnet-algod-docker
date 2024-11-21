@@ -41,7 +41,7 @@ echo "Catchpoint update available"
 echo "New: $latest"
 echo "Previous last known: $last_known"
 
-docker compose down
+./stop.sh
 
 timeout 1m ./utils/reset.sh -y || true
 
@@ -65,7 +65,7 @@ while true; do
     current_round=$(./goal.sh node lastround | grep -oE '[0-9]+')
     if [ $current_round -lt $catchpoint_round ]; then
         echo "Catchup failed. Aborting"
-        docker compose down
+        ./stop.sh
         exit 1
     fi
     echo "Waiting for progress"
@@ -78,14 +78,16 @@ while true; do
         git add latest
         git commit -m "Last good catchpoint: $latest"
         git push
-        docker compose down 
+        ./stop.sh
         echo "Done"
         exit 0
     else
         echo "No progress made, catchpoint is bad"
         tail -n 1 $LATEST_LIST_PATH > $LAST_KNOWN_PATH
-        docker compose down
+        ./stop.sh
         echo "Done"
         exit 0
     fi
 done
+
+./stop.sh
