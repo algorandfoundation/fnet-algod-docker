@@ -51,6 +51,8 @@ echo "OK"
 
 sleep 2
 
+echo "Using $latest"
+
 while true; do
     echo Catching up..
     while ./goal.sh node status | grep verified > /dev/null; do
