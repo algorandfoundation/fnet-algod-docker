@@ -78,6 +78,7 @@ while true; do
         git add latest
         git commit -m "Last good catchpoint: $latest"
         git push
+        cd ..
         ./stop.sh
         echo "Done"
         exit 0
