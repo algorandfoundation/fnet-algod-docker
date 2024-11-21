@@ -1,6 +1,6 @@
 services:
   algod-fnet:
-    container_name: node-fnet
+    container_name: node-fnet-catchpoints
     image: tasosbit/algod-fnet:latest
     environment:
       ALGORAND_DATA: "/node/data"

@@ -8,7 +8,7 @@ set -e
 source utils/_common.sh
 
 # Is container running?
-RUN_STATE=$(docker inspect node-fnet 2> /dev/null | jq -r '.[]|select(.Name == "/node-fnet")|.State.Running')
+RUN_STATE=$(docker inspect $DOCKER_CONTAINER_NAME 2> /dev/null | jq -r ".[]|select(.Name == \"/$DOCKER_CONTAINER_NAME\")|.State.Running")
 
 if [[ "$RUN_STATE" != "true" ]]; then
     exit 1

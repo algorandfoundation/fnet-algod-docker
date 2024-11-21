@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export DOCKER_CONTAINER_NAME="node-fnet-catchpoints"
+
 export LOCAL_DATA_DIR=data-fnet-v1
 
 export LOCAL_KMD_DIR=data-kmd-v0.5

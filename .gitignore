@@ -5,3 +5,5 @@ partkeys/*
 data-fnet-v1/
 data-kmd-v0.5/
 tmp/
+catchpoint_fr3_id_ed25519
+utils/get-all-catchpoints.sh

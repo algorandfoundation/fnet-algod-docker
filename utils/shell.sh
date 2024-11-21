@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-DOCKER_CLI_HINTS=false docker exec -it node-fnet /bin/ash
+cd "$(dirname "$(realpath "$0")")/.."
+
+source utils/_common.sh
+
+DOCKER_CLI_HINTS=false docker exec -it $DOCKER_CONTAINER_NAME /bin/ash

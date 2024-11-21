@@ -7,6 +7,8 @@ set -e
 
 source utils/_common.sh
 
+sleep 1
+
 i=0
 while ! ./utils/is_node_running.sh && [ "$i" -lt 10 ]; do
     echo -n "."

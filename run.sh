@@ -13,6 +13,8 @@ WAIT_SYNC_TIME_BEFORE_CATCHUP=9 # seconds
 # Check all requirements are installed
 confirm_requirements
 
+sed -i "s/container_name:.*$/container_name: $DOCKER_CONTAINER_NAME/" docker-compose.yaml
+
 # First run; fetch latest genesis from a relay
 if [ ! -f config/genesis.json ]; then
     ./utils/get_genesis.sh > config/genesis.json
@@ -80,6 +82,7 @@ fi
 
 echo -n "$LOGPFX Waiting for node to start"
 ./utils/wait_node_start.sh
+echo "$LOGPFX OK"
 
 if ! ./utils/is_node_running.sh; then
     echo -e "\n$LOGPFX ERROR algod failed to start"
