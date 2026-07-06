@@ -2,7 +2,7 @@
 
 ## Overview
 
-A set of scripts to configure and run a dockerized algod for [FNet](https://fnet.algorand.green/).
+A set of scripts to configure and run a dockerized algod for [FNet](https://fnet.algorand.tech/).
 
 ## Getting Started
 
