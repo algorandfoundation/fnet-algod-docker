@@ -43,7 +43,7 @@ echo "Previous last known: $last_known"
 
 ./stop.sh
 
-timeout 1m ./utils/reset.sh -y || true
+timeout 1m ./utils/reset.sh -y --no-catchup || true
 
 echo "OK"
 

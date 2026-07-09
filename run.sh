@@ -10,6 +10,14 @@ source utils/_common.sh
 
 WAIT_SYNC_TIME_BEFORE_CATCHUP=9 # seconds
 
+# Parse args
+DO_CATCHUP=1
+for arg in "$@"; do
+    case "$arg" in
+        --no-catchup) DO_CATCHUP=0 ;;
+    esac
+done
+
 # Check all requirements are installed
 confirm_requirements
 
@@ -99,12 +107,16 @@ fi
 sleep 5 # give some more time, had "synced" false positives
 
 # Wait to sync normally, then start fast catchup
-echo "$LOGPFX Waiting $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds for sync. Ctrl+C to skip"
-if ! ./utils/wait_sync.sh $WAIT_SYNC_TIME_BEFORE_CATCHUP; then
-    echo "$LOGPFX Not synced after $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds. Doing fast catchup"
-    if ! ./utils/catchup.sh; then
-        echo "$LOGPFX Fast catchup failed; waiting for sync indefinitely"
-        ./utils/wait_sync.sh
+if [ $DO_CATCHUP -eq 0 ]; then
+    echo "$LOGPFX Skipping fast catchup (--no-catchup)"
+else
+    echo "$LOGPFX Waiting $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds for sync. Ctrl+C to skip"
+    if ! ./utils/wait_sync.sh $WAIT_SYNC_TIME_BEFORE_CATCHUP; then
+        echo "$LOGPFX Not synced after $WAIT_SYNC_TIME_BEFORE_CATCHUP seconds. Doing fast catchup"
+        if ! ./utils/catchup.sh; then
+            echo "$LOGPFX Fast catchup failed; waiting for sync indefinitely"
+            ./utils/wait_sync.sh
+        fi
     fi
 fi
 
